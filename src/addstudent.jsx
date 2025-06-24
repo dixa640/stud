@@ -35,8 +35,28 @@ function AddStudent() {
             justifyContent: 'center',
             alignItems: 'center',
             color: "black",
-            padding: '30px'
+            padding: '30px',
+            width: '100vw',
+            boxSizing: 'border-box',
         }}>
+            <style>{`
+                @media (max-width: 600px) {
+                    .form-container > div {
+                        padding: 15px !important;
+                        max-width: 98vw !important;
+                    }
+                    .attendance-form {
+                        grid-template-columns: 1fr !important;
+                    }
+                    .attendance-form input {
+                        width: 100% !important;
+                        font-size: 15px !important;
+                    }
+                    .attendance-form label {
+                        font-size: 14px !important;
+                    }
+                }
+            `}</style>
             <div
                 style={{
                     width: '100%',
@@ -45,7 +65,8 @@ function AddStudent() {
                     borderRadius: '20px',
                     boxShadow: '0 15px 30px rgba(0,0,0,0.2)',
                     padding: '40px',
-                    position: 'relative'
+                    position: 'relative',
+                    boxSizing: 'border-box',
                 }}
             >
                 <div
@@ -79,7 +100,8 @@ function AddStudent() {
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
                         gap: '20px',
-                        marginBottom: '30px'
+                        marginBottom: '30px',
+                        width: '100%',
                     }}>
                         {Object.keys(formData).map((key) => (
                             <div

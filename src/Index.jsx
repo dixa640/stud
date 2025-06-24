@@ -120,8 +120,9 @@ const styles = {
         fontFamily: "'Segoe UI', sans-serif",
     },
     card: {
-        border: "1px solid white",
-        background: "#111",
+        // border: "1px solid white",
+              backgroundColor: "#1a1a1a",
+
         borderRadius: "20px",
         padding: "30px",
         width: "100%",
@@ -143,6 +144,7 @@ const styles = {
         gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
         gap: "15px",
         marginBottom: "30px",
+       
     },
     glowButton1: {
         background: "orange",
@@ -176,6 +178,7 @@ const styles = {
     },
     listWrapper: {
         marginTop: "20px",
+       
     },
     listTitle: {
         fontSize: "18px",
@@ -198,6 +201,7 @@ const styles = {
         alignItems: "center",
         color: "black",
         border: "1px solid black",
+        
     },
     attendanceButton: {
       backgroundColor: "orange",

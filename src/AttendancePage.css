@@ -1,0 +1,145 @@
+body {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    background: #111;
+    color: white;
+    padding: 25px;
+    border-radius: 18px;
+    border: 2px solid black;
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+    overflow-x: auto;
+}
+
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.heading {
+    font-size: 22px;
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.closeBtn {
+    background: #ff6600;
+    font-size: 20px;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.message {
+    color: #ff9900;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.th {
+    text-align: left;
+    padding: 14px;
+    background: white;
+    color: black;
+    font-size: 25px;
+    min-width: 150px;
+    user-select: none;
+    border-bottom: 2px solid #333;
+}
+
+.td {
+    padding: 14px;
+    border-bottom: 1px solid white;
+    font-size: 14px;
+    color: white;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+}
+
+.responsiveStatus {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .responsiveRow {
+        display: block;
+        margin-bottom: 20px;
+        background: #1a1a1a;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .responsiveName {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .responsiveStatus {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .th {
+        font-size: 20px;
+    }
+}
+
+.okBtn {
+    background: #ff6600;
+    color: white;
+    font-size: 15px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.submitBtnContainer {
+    text-align: center;
+    margin-top: 20px;
+}

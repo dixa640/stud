@@ -88,7 +88,7 @@ const CheckStudent = () => {
 
 const styles = {
     container: {
-        background: "linear-gradient(to bottom right, #1a1a1a, #0f0f0f)",
+        // background: "linear-gradient(to bottom right, #1a1a1a, #0f0f0f)",
         color: "#fff",
         minHeight: "100vh",
         display: "flex",
@@ -97,6 +97,7 @@ const styles = {
         justifyContent: "center",
         padding: "30px",
         fontFamily: "Segoe UI, sans-serif",
+       
     },
     title: {
         fontSize: "30px",
