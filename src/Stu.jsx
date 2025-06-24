@@ -159,13 +159,13 @@ const styles = {
     fontSize: '13px',
     textAlign: 'center',
     whiteSpace: 'nowrap',
-
   },
   buttonGroup: {
     display: 'flex',
     gap: '10px',
     justifyContent: 'center',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',   // <-- prevent buttons from wrapping
+    whiteSpace: 'nowrap', // <-- keep buttons inline horizontally
   },
   editBtn: {
     backgroundColor: '#00cc66',
@@ -175,6 +175,7 @@ const styles = {
     border: 'none',
     cursor: 'pointer',
     fontWeight: '600',
+    minWidth: '70px',     // keep consistent width
   },
   deleteBtn: {
     backgroundColor: '#cc0033',
@@ -184,6 +185,7 @@ const styles = {
     border: 'none',
     cursor: 'pointer',
     fontWeight: '600',
+    minWidth: '70px',     // keep consistent width
   },
 };
 

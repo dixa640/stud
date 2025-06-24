@@ -49,7 +49,7 @@ function AddStudent() {
                         grid-template-columns: 1fr !important;
                     }
                     .attendance-form input {
-                        width: 100% !important;
+                        width: 70% !important;
                         font-size: 15px !important;
                     }
                     .attendance-form label {
