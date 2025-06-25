@@ -27,14 +27,71 @@ const Home = () => {
 
     return (
         <div style={styles.wrapper}>
+            <style>{`
+                html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden !important;
+        marginBottom: 20px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+                @media (max-width: 600px) {
+                    .responsive-card {
+                        padding: 20px !important;
+                        width: 100% !important;
+                        height: 95vh !important;
+                        max-width: 100% !important;
+                        
+                    }
+
+                    .responsive-title {
+                        font-size: 20px !important;
+                        text-align: center !important;
+                    }
+
+                    .responsive-button-row {
+                        grid-template-columns: 1fr !important;
+                        gap: 10px !important;
+                    }
+
+                    .responsive-list-title {
+                        font-size: 16px !important;
+                    }
+
+                    .responsive-list-item {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 10px;
+                    }
+
+                    .responsive-attendance-button {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+
+                ::-webkit-scrollbar {
+                    width: 0px;
+                }
+                ::-webkit-scrollbar-thumb {
+                    background: gray;
+                    border-radius: 4px;
+                }
+            `}</style>
+
             <motion.div
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                style={styles.card}
+                style={{ ...styles.card }}
+                className="responsive-card"
             >
                 <div style={styles.header}>
-                    <h1 style={styles.title}>
+                    <h1 style={styles.title} className="responsive-title">
                         Welcome To The Skill Boost Computer Institute
                     </h1>
 
@@ -50,7 +107,7 @@ const Home = () => {
                         <p style={styles.empty}>No students found.</p>
                     )}
 
-                    <div style={styles.buttonRow}>
+                    <div style={styles.buttonRow} className="responsive-button-row">
                         <motion.button
                             onClick={() => navigate("/add-student")}
                             style={styles.glowButton1}
@@ -78,17 +135,18 @@ const Home = () => {
                 <div style={styles.listContainer}>
                     {students.length > 0 && (
                         <>
-                            <h3 style={styles.listTitle}>Student List</h3>
+                            <h3 style={styles.listTitle} className="responsive-list-title">Student List</h3>
                             <div style={styles.scrollArea}>
                                 <ul style={styles.list}>
                                     {students.map((s) => (
-                                        <li key={s._id} style={styles.listItem}>
+                                        <li key={s._id} style={styles.listItem} className="responsive-list-item">
                                             {s.name}
                                             <button
                                                 onClick={() =>
                                                     navigate(`/student-attendance/${s._id}`)
                                                 }
                                                 style={styles.attendanceButton}
+                                                className="responsive-attendance-button"
                                             >
                                                 View Attendance
                                             </button>
@@ -113,8 +171,8 @@ const glowEffect = {
 const styles = {
     wrapper: {
         backgroundColor: "black",
-        height: "100vh", // lock height
-        overflow: "hidden", // prevent page scroll
+        height: "100vh",
+        overflow: "hidden",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -141,7 +199,6 @@ const styles = {
         fontWeight: "bold",
         color: "white",
         marginBottom: "30px",
-        minHeight: "34px",
     },
     loading: {
         color: "orange",

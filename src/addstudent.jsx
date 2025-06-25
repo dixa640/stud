@@ -11,10 +11,11 @@ function AddStudent() {
         motherName: "",
         phone: "",
         qualification: "",
-        // admissionNo: "",
-        // dateOfJoining: "",
         course: "",
         duration: ""
+        // Uncomment below to enable
+        // admissionNo: "",
+        // dateOfJoining: ""
     });
 
     const handleChange = (e) => {
@@ -35,85 +36,76 @@ function AddStudent() {
     };
 
     return (
-     <div style={{
-    height: "100vh",
-    width: "100vw",
-    margin: 0,
-    padding: 0,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#000", // pure black in case content shrinks
-    overflow: "hidden"
-}}>
-
-    <style>{`
-        html, body {
-            overflow: hidden !important;
-            height: 100% !important;
-            margin: 0;
-            padding: 0;
-        }
-    `}</style>
-
+        <div style={{
+            height: "100vh",
+            width: "100vw",
+            background: "linear-gradient(to right, #0f0f0f, #1a1a1a)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            padding: "30px",
+            boxSizing: "border-box",
+            overflow: "hidden"
+        }}>
             <style>{`
-        @media (max-width: 600px) {
-  .form-content {
-    padding: 15px !important;
-    max-width: 100% !important;
-  }
+                html, body {
+                    margin: 0;
+                    padding: 0;
+                    height: 100%;
+                    overflow: hidden;
+                }
 
-  .form-content h1 {
-    font-size: 22px !important;
-  }
+                @media (max-width: 600px) {
+                    .form-content {
+                        padding: 15px !important;
+                        max-width: 100% !important;
+                    }
+                    .form-content h1 {
+                        font-size: 22px !important;
+                    }
+                    .form-content p {
+                        font-size: 13px !important;
+                        margin: 4px 0 !important;
+                    }
+                    .attendance-form {
+                        grid-template-columns: 1fr !important;
+                        justify-items: center;
+                    }
+                    .attendance-form input {
+                        width: 85% !important;
+                        font-size: 15px !important;
+                        text-align: center;
+                    }
+                    .attendance-form label {
+                        font-size: 14px !important;
+                        text-align: left !important;
+                    }
+                    .button-submit {
+                        width: 100% !important;
+                    }
+                }
 
-  .form-content p {
-    font-size: 13px !important;
-    margin: 4px 0 !important;
-  }
-
-  .attendance-form {
-    grid-template-columns: 1fr !important;
-    justify-items: center;
-  }
-
-  .attendance-form input {
-    width: 85% !important;
-    font-size: 15px !important;
-    text-align: center;
-  }
-
-  .attendance-form label {
-    font-size: 14px !important;
-    text-align: left !important;
-  }
-
-  .button-submit {
-    width: 100% !important;
-  }
-
-  html, body {
-    height: 1vh !important;
-    overflow: hidden !important;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-      `}</style>
+                ::-webkit-scrollbar {
+                    width: 0px;
+                }
+                ::-webkit-scrollbar-thumb {
+                    background: gray;
+                    border-radius: 4px;
+                }
+            `}</style>
 
             <div style={{
-    width: "100%",
-    maxWidth: "900px",
-    height: "100vh", // full screen height
-    backgroundColor: "#ffffff",
-    borderRadius: "0", // remove rounded corners on mobile
-    boxShadow: "none", // remove shadow on mobile for full-screen feel
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-}}>
-
+                width: "100%",
+                maxWidth: "900px",
+                height: "100%",
+                backgroundColor: "#ffffff",
+                borderRadius: "8px",
+                boxShadow: "0 15px 30px rgba(0,0,0,0.2)",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                overflowY: "auto"
+            }}>
 
                 {/* Close Button */}
                 <div
@@ -125,7 +117,7 @@ function AddStudent() {
                         cursor: "pointer",
                         color: "#e74c3c",
                         fontWeight: "bold",
-                        zIndex: 0
+                        zIndex: 10
                     }}
                     onClick={() => navigate("/")}
                 >

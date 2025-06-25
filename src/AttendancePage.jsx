@@ -50,148 +50,172 @@ const AttendancePage = () => {
   const getRadioBoxShadow = (currentStatus, radioValue) => {
     if (currentStatus !== radioValue) return {};
     if (radioValue === "Present") return {};
-    if (radioValue === "Absent") return { boxShadow: "none" };
-    if (radioValue === "leave") return { boxShadow: "none" };
+    if (radioValue === "Absent" || radioValue === "leave")
+      return { boxShadow: "none" };
     return {};
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      style={styles.wrapper}
-    >
+    <>
+      {/* 👇 Embedded CSS for scrollbar hiding and mobile padding */}
+      <style>{`
+        ::-webkit-scrollbar {
+          display: none;
+        }
+
+        .hide-scrollbar {
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
+        }
+
+        @media (max-width: 480px) {
+          th, td {
+            padding-left: 2px !important;
+            padding-right: 2px !important;
+          }
+        }
+      `}</style>
+
       <motion.div
-        initial={{ scale: 0.8, y: 50 }}
-        animate={{ scale: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        style={styles.card}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        style={styles.wrapper}
       >
-        {/* Header */}
-        <div style={styles.headerRow}>
-          <h2 style={styles.heading}>Attendance Dashboard</h2>
-          <motion.button
-            style={styles.closeBtn}
-            whileHover={{ rotate: 180, scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={handleClose}
-            aria-label="Close"
-          >
-            ×
-          </motion.button>
-        </div>
+        <motion.div
+          initial={{ scale: 0.8, y: 50 }}
+          animate={{ scale: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          style={styles.card}
+        >
+          <div style={styles.headerRow}>
+            <h2 style={styles.heading}>Attendance Dashboard</h2>
+            <motion.button
+              style={styles.closeBtn}
+              whileHover={{ rotate: 180, scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleClose}
+              aria-label="Close"
+            >
+              ×
+            </motion.button>
+          </div>
 
-        {message && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            style={styles.message}
-          >
-            {message}
-          </motion.p>
-        )}
+          {message && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              style={styles.message}
+            >
+              {message}
+            </motion.p>
+          )}
 
-        {/* Table & Submit inside scrollable wrapper */}
-        <div style={styles.tableScrollWrapper}>
-          <table style={styles.table}>
-            <thead style={styles.thead}>
-              <tr>
-                <th style={styles.th}>Sr No</th>
-                <th style={styles.th}>Student's Name</th>
-                <th style={styles.th}>Attendance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((student, index) => (
-                <motion.tr
-                  key={student._id || index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  style={styles.tr}
-                >
-                  <td style={styles.td}>{index + 1}</td>
-                  <td style={{ ...styles.td, ...styles.studentName }}>
-                    {student.name}
-                  </td>
-                  <td style={{ ...styles.td, ...styles.radioGroup }}>
-                    <label style={styles.radioLabel}>
-                      <input
-                        type="radio"
-                        name={`status-${student._id}`}
-                        value="Present"
-                        checked={student.status === "Present"}
-                        onChange={() =>
-                          handleStatusChange(student._id, "Present")
-                        }
-                        style={styles.radioInput}
-                      />
-                      <span>Present</span>
-                    </label>
-                    <label style={styles.radioLabel}>
-                      <input
-                        type="radio"
-                        name={`status-${student._id}`}
-                        value="Absent"
-                        checked={student.status === "Absent"}
-                        onChange={() =>
-                          handleStatusChange(student._id, "Absent")
-                        }
-                        style={{
-                          ...styles.radioInput,
-                          ...getRadioBoxShadow(student.status, "Absent"),
-                        }}
-                      />
-                      <span>Absent</span>
-                    </label>
-                    <label style={styles.radioLabel}>
-                      <input
-                        type="radio"
-                        name={`status-${student._id}`}
-                        value="leave"
-                        checked={student.status === "leave"}
-                        onChange={() =>
-                          handleStatusChange(student._id, "leave")
-                        }
-                        style={{
-                          ...styles.radioInput,
-                          ...getRadioBoxShadow(student.status, "leave"),
-                        }}
-                      />
-                      <span>Leave</span>
-                    </label>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Submit button (now scrolls with table) */}
-          <motion.div
-            style={{ textAlign: "center", marginTop: "20px" }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <div
+            className="hide-scrollbar"
+            style={styles.tableScrollWrapper}
           >
-            <button style={styles.okBtn} onClick={handleSubmit}>
-              Submit Attendance
-            </button>
-          </motion.div>
-        </div>
+            <table style={styles.table}>
+              <thead style={styles.thead}>
+                <tr>
+                  <th style={styles.th}>Sr No</th>
+                  <th style={styles.th}>Student's Name</th>
+                  <th style={styles.th}>Attendance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student, index) => (
+                  <motion.tr
+                    key={student._id || index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    style={styles.tr}
+                  >
+                    <td style={styles.td}>{index + 1}</td>
+                    <td style={{ ...styles.td, ...styles.studentName }}>
+                      {student.name}
+                    </td>
+                    <td style={{ ...styles.td, ...styles.radioGroup }}>
+                      <label style={styles.radioLabel}>
+                        <input
+                          type="radio"
+                          name={`status-${student._id}`}
+                          value="Present"
+                          checked={student.status === "Present"}
+                          onChange={() =>
+                            handleStatusChange(student._id, "Present")
+                          }
+                          style={styles.radioInput}
+                        />
+                        <span>Present</span>
+                      </label>
+                      <label style={styles.radioLabel}>
+                        <input
+                          type="radio"
+                          name={`status-${student._id}`}
+                          value="Absent"
+                          checked={student.status === "Absent"}
+                          onChange={() =>
+                            handleStatusChange(student._id, "Absent")
+                          }
+                          style={{
+                            ...styles.radioInput,
+                            ...getRadioBoxShadow(student.status, "Absent"),
+                          }}
+                        />
+                        <span>Absent</span>
+                      </label>
+                      <label style={styles.radioLabel}>
+                        <input
+                          type="radio"
+                          name={`status-${student._id}`}
+                          value="leave"
+                          checked={student.status === "leave"}
+                          onChange={() =>
+                            handleStatusChange(student._id, "leave")
+                          }
+                          style={{
+                            ...styles.radioInput,
+                            ...getRadioBoxShadow(student.status, "leave"),
+                          }}
+                        />
+                        <span>Leave</span>
+                      </label>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+
+            <motion.div
+              style={{ textAlign: "center", marginTop: "20px" }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <button style={styles.okBtn} onClick={handleSubmit}>
+                Submit Attendance
+              </button>
+            </motion.div>
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </>
   );
 };
 
 const styles = {
   wrapper: {
-    minHeight: "100vh",
+    height: "100vh",
+    width: "100vw",
+    overflow: "hidden",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "black",
     padding: "20px",
+    boxSizing: "border-box",
   },
   card: {
     background: "#111",
@@ -208,7 +232,6 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: "10px",
-    flexWrap: "nowrap",
     paddingRight: "10px",
   },
   heading: {
@@ -232,7 +255,6 @@ const styles = {
     cursor: "pointer",
     fontWeight: "bold",
     lineHeight: 1,
-    flexShrink: 0,
     marginLeft: "10px",
   },
   message: {
@@ -241,18 +263,15 @@ const styles = {
     textAlign: "center",
     marginBottom: "16px",
   },
-
   tableScrollWrapper: {
-    overflowY: "auto",
-    overflowX: "auto",
     maxHeight: "65vh",
-    paddingBottom: "10px",
+    overflowY: "scroll",
+    overflowX: "auto",
   },
   table: {
     width: "100%",
     borderCollapse: "collapse",
     marginBottom: "10px",
-    minWidth: "500px",
   },
   thead: {
     position: "sticky",
@@ -268,8 +287,6 @@ const styles = {
     fontSize: "18px",
     borderBottom: "2px solid orange",
     userSelect: "none",
-    minWidth: "140px",
-    borderRadius: "8px",
     verticalAlign: "bottom",
   },
   tr: {
@@ -285,7 +302,7 @@ const styles = {
     color: "#5fd3f3",
     fontWeight: "600",
   },
-  radioGroup: {
+   radioGroup: {
     display: "flex",
     gap: "16px",
     alignItems: "center",
@@ -300,12 +317,12 @@ const styles = {
     fontWeight: "600",
     userSelect: "none",
   },
-    radioInput: {
+  radioInput: {
     width: "14px",
     height: "14px",
     margin: 0,
     cursor: "pointer",
-    boxShadow: "none", // no shadow on radio by default
+    boxShadow: "none",
     borderRadius: "50%",
   },
   okBtn: {
@@ -322,48 +339,7 @@ const styles = {
     maxWidth: "300px",
     margin: "auto",
   },
-
-  // Responsive styles
-  "@media (max-width: 350px)": {
-    card: {
-      padding: "15px 15px 25px",
-      width: "10%",
-    },
-    headerRow: {
-      paddingRight: "5px",
-    },
-    heading: {
-      fontSize: "20px",
-      maxWidth: "75%",
-    },
-    closeBtn: {
-      width: "36px",
-      height: "36px",
-      fontSize: "20px",
-      marginLeft: "8px",
-    },
-    table: {
-      minWidth: "480px",
-    },
-    th: {
-      fontSize: "16px",
-      minWidth: "120px",
-      padding: "10px 8px",
-    },
-    td: {
-      fontSize: "13px",
-      padding: "10px 8px",
-    },
-    radioGroup: {
-      gap: "10px",
-    },
-    okBtn: {
-      fontSize: "18px",
-      padding: "14px 0",
-      maxWidth: "100%",
-      width: "100%",
-    },
-  },
 };
 
 export default AttendancePage;
+

@@ -14,7 +14,6 @@ const Stu = () => {
     const fetchStudents = async () => {
       try {
         const res = await axios.get("https://stuserver-6j1t.onrender.com/api/students");
-        console.log('Fetched students:', res.data);
         setStudents(res.data);
       } catch (err) {
         console.error("Error fetching students:", err);
@@ -50,7 +49,24 @@ const Stu = () => {
 
   return (
     <motion.div style={styles.body}>
-      {/* Table visible only when modal not open */}
+      {/* 🔒 GLOBAL STYLES TO HIDE BODY AND SCROLLBARS */}
+      <style>{`
+        html, body {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          overflow: hidden !important;
+        }
+        ::-webkit-scrollbar {
+          width: 0 !important;
+          height: 0 !important;
+        }
+        * {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+
       {!isModalOpen && (
         <motion.div style={styles.container}>
           <div style={styles.headerRow}>
@@ -73,8 +89,6 @@ const Stu = () => {
                   <th style={styles.th}>DOB</th>
                   <th style={styles.th}>Phone</th>
                   <th style={styles.th}>Qualification</th>
-                  {/* <th style={styles.th}>Admission No</th>
-                  <th style={styles.th}>Date of Joining</th> */}
                   <th style={styles.th}>Course</th>
                   <th style={styles.th}>Duration</th>
                   <th style={styles.th}>Actions</th>
@@ -90,8 +104,6 @@ const Stu = () => {
                     <td style={{ ...styles.td, color: '#ffff66' }}>{student.dob}</td>
                     <td style={{ ...styles.td, color: '#66ccff' }}>{student.phone}</td>
                     <td style={{ ...styles.td, color: '#66ffff' }}>{student.qualification}</td>
-                    {/* <td style={{ ...styles.td, color: 'red' }}>{student.admissionNo }</td>
-                    <td style={{ ...styles.td, color: 'white' }}>{student.dateOfJoining }</td> */}
                     <td style={{ ...styles.td, color: '#80ff80' }}>{student.course}</td>
                     <td style={{ ...styles.td, color: '#ff66cc' }}>{student.duration}</td>
                     <td style={styles.td}>
@@ -108,7 +120,6 @@ const Stu = () => {
         </motion.div>
       )}
 
-      {/* Modal displayed alone when open */}
       {isModalOpen && selectedStudent && (
         <EditStudentModal
           isOpen={isModalOpen}
@@ -125,7 +136,9 @@ const styles = {
   body: {
     backgroundColor: 'black',
     minHeight: '100vh',
+    height: '100vh',
     padding: '20px',
+    overflow: 'hidden',
   },
   container: {
     maxWidth: '100%',
