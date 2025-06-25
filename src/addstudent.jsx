@@ -35,23 +35,32 @@ function AddStudent() {
     };
 
     return (
-        <div style={{
-            minHeight: "100vh",
-            background: "linear-gradient(to right, #0f0f0f, #1a1a1a)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            color: "black",
-            padding: "30px",
-            width: "100vw",
-            boxSizing: "border-box",
-            overflowY: "auto"
-        }}>
+       <div style={{
+    height: "100vh",
+    background: "linear-gradient(to right, #0f0f0f, #1a1a1a)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    color: "black",
+    padding: "30px",
+    width: "100vw",
+    boxSizing: "border-box",
+    overflow: "hidden"
+}}>
+    <style>{`
+        html, body {
+            overflow: hidden !important;
+            height: 100% !important;
+            margin: 0;
+            padding: 0;
+        }
+    `}</style>
+
             <style>{`
         @media (max-width: 600px) {
           .form-content {
             padding: 15px !important;
-            max-width: 95vw !important;
+            max-width: 100vh !important;
           }
           .form-content h1 {
             font-size: 22px !important;
@@ -73,9 +82,18 @@ function AddStudent() {
             font-size: 14px !important;
             text-align: left !important;
           }
+            .button-submit {
+            width: 100% !important;}
+        }
+               html, body {
+            overflow: hidden !important;
+            height: 100% !important;
+        
+            margin: 0;
+            padding: 0;
         }
         ::-webkit-scrollbar {
-          width: 6px;
+          width: 0px;
         }
         ::-webkit-scrollbar-thumb {
           background:gray;
@@ -87,14 +105,14 @@ function AddStudent() {
                 width: "100%",
                 maxWidth: "900px",
                 backgroundColor: "#ffffff",
-                borderRadius: "20px",
+                borderRadius: "8px",
                 boxShadow: "0 15px 30px rgba(0,0,0,0.2)",
                 position: "relative",
                 display: "flex",
                 flexDirection: "column",
-                maxHeight: "95vh",
-                overflowY: "auto",
-                overflowX: "hidden"
+                maxHeight: "100vh",
+                // overflowY: "auto",
+                // overflowX: "auto",
             }}>
 
                 {/* Close Button */}
@@ -107,7 +125,7 @@ function AddStudent() {
                         cursor: "pointer",
                         color: "#e74c3c",
                         fontWeight: "bold",
-                        zIndex: 10
+                        zIndex: 0
                     }}
                     onClick={() => navigate("/")}
                 >
