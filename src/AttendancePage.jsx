@@ -19,7 +19,9 @@ const AttendancePage = () => {
   }, []);
 
   const handleStatusChange = (id, status) => {
-    const updated = students.map((s) => (s._id === id ? { ...s, status } : s));
+    const updated = students.map((s) =>
+      s._id === id ? { ...s, status } : s
+    );
     setStudents(updated);
   };
 
@@ -45,6 +47,14 @@ const AttendancePage = () => {
     setTimeout(() => navigate("/"), 1200);
   };
 
+  const getRadioBoxShadow = (currentStatus, radioValue) => {
+    if (currentStatus !== radioValue) return {};
+    if (radioValue === "Present") return {};
+    if (radioValue === "Absent") return { boxShadow: "none" };
+    if (radioValue === "leave") return { boxShadow: "none" };
+    return {};
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -58,6 +68,7 @@ const AttendancePage = () => {
         transition={{ duration: 0.8 }}
         style={styles.card}
       >
+        {/* Header */}
         <div style={styles.headerRow}>
           <h2 style={styles.heading}>Attendance Dashboard</h2>
           <motion.button
@@ -82,12 +93,14 @@ const AttendancePage = () => {
           </motion.p>
         )}
 
-        <div style={styles.tableWrapper}>
+        {/* Table & Submit inside scrollable wrapper */}
+        <div style={styles.tableScrollWrapper}>
           <table style={styles.table}>
-            <thead>
+            <thead style={styles.thead}>
               <tr>
+                <th style={styles.th}>Sr No</th>
                 <th style={styles.th}>Student's Name</th>
-                <th style={styles.th}>Status</th>
+                <th style={styles.th}>Attendance</th>
               </tr>
             </thead>
             <tbody>
@@ -97,8 +110,12 @@ const AttendancePage = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
+                  style={styles.tr}
                 >
-                  <td style={styles.td}>{student.name}</td>
+                  <td style={styles.td}>{index + 1}</td>
+                  <td style={{ ...styles.td, ...styles.studentName }}>
+                    {student.name}
+                  </td>
                   <td style={{ ...styles.td, ...styles.radioGroup }}>
                     <label style={styles.radioLabel}>
                       <input
@@ -106,7 +123,10 @@ const AttendancePage = () => {
                         name={`status-${student._id}`}
                         value="Present"
                         checked={student.status === "Present"}
-                        onChange={() => handleStatusChange(student._id, "Present")}
+                        onChange={() =>
+                          handleStatusChange(student._id, "Present")
+                        }
+                        style={styles.radioInput}
                       />
                       <span>Present</span>
                     </label>
@@ -116,7 +136,13 @@ const AttendancePage = () => {
                         name={`status-${student._id}`}
                         value="Absent"
                         checked={student.status === "Absent"}
-                        onChange={() => handleStatusChange(student._id, "Absent")}
+                        onChange={() =>
+                          handleStatusChange(student._id, "Absent")
+                        }
+                        style={{
+                          ...styles.radioInput,
+                          ...getRadioBoxShadow(student.status, "Absent"),
+                        }}
                       />
                       <span>Absent</span>
                     </label>
@@ -126,7 +152,13 @@ const AttendancePage = () => {
                         name={`status-${student._id}`}
                         value="leave"
                         checked={student.status === "leave"}
-                        onChange={() => handleStatusChange(student._id, "leave")}
+                        onChange={() =>
+                          handleStatusChange(student._id, "leave")
+                        }
+                        style={{
+                          ...styles.radioInput,
+                          ...getRadioBoxShadow(student.status, "leave"),
+                        }}
                       />
                       <span>Leave</span>
                     </label>
@@ -135,17 +167,18 @@ const AttendancePage = () => {
               ))}
             </tbody>
           </table>
-        </div>
 
-        <motion.div
-          style={{ textAlign: "center", marginTop: "20px" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <button style={styles.okBtn} onClick={handleSubmit}>
-            Submit Attendance
-          </button>
-        </motion.div>
+          {/* Submit button (now scrolls with table) */}
+          <motion.div
+            style={{ textAlign: "center", marginTop: "20px" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <button style={styles.okBtn} onClick={handleSubmit}>
+              Submit Attendance
+            </button>
+          </motion.div>
+        </div>
       </motion.div>
     </motion.div>
   );
@@ -168,25 +201,29 @@ const styles = {
     width: "100%",
     maxWidth: "700px",
     position: "relative",
-    overflowX: "auto",
     color: "white",
   },
   headerRow: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px",
-    flexWrap: "wrap",
+    marginBottom: "10px",
+    flexWrap: "nowrap",
+    paddingRight: "10px",
   },
   heading: {
     fontSize: "28px",
     color: "orange",
     fontWeight: "bold",
     margin: 0,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: "85%",
   },
   closeBtn: {
     background: "orange",
-    color: "black",
+    color: "white",
     fontSize: "24px",
     border: "none",
     borderRadius: "50%",
@@ -195,7 +232,8 @@ const styles = {
     cursor: "pointer",
     fontWeight: "bold",
     lineHeight: 1,
-    alignSelf: "flex-start",
+    flexShrink: 0,
+    marginLeft: "10px",
   },
   message: {
     color: "orange",
@@ -203,14 +241,24 @@ const styles = {
     textAlign: "center",
     marginBottom: "16px",
   },
-  tableWrapper: {
+
+  tableScrollWrapper: {
+    overflowY: "auto",
     overflowX: "auto",
+    maxHeight: "65vh",
+    paddingBottom: "10px",
   },
   table: {
     width: "100%",
     borderCollapse: "collapse",
-    marginBottom: "20px",
-    minWidth: "300px",
+    marginBottom: "10px",
+    minWidth: "500px",
+  },
+  thead: {
+    position: "sticky",
+    top: 0,
+    backgroundColor: "#111",
+    zIndex: 200,
   },
   th: {
     textAlign: "left",
@@ -221,12 +269,21 @@ const styles = {
     borderBottom: "2px solid orange",
     userSelect: "none",
     minWidth: "140px",
+    borderRadius: "8px",
+    verticalAlign: "bottom",
+  },
+  tr: {
+    borderBottom: "1px solid white",
   },
   td: {
-    padding: "12px 10px",
-    borderBottom: "1px solid white",
+    color: "#c0c0c0",
     fontSize: "14px",
-    color: "white",
+    padding: "12px 10px",
+    verticalAlign: "middle",
+  },
+  studentName: {
+    color: "#5fd3f3",
+    fontWeight: "600",
   },
   radioGroup: {
     display: "flex",
@@ -243,6 +300,14 @@ const styles = {
     fontWeight: "600",
     userSelect: "none",
   },
+    radioInput: {
+    width: "14px",
+    height: "14px",
+    margin: 0,
+    cursor: "pointer",
+    boxShadow: "none", // no shadow on radio by default
+    borderRadius: "50%",
+  },
   okBtn: {
     background: "orange",
     color: "black",
@@ -253,22 +318,36 @@ const styles = {
     cursor: "pointer",
     fontWeight: "bold",
     transition: "background 0.3s, transform 0.2s",
+    width: "100%",
+    maxWidth: "300px",
+    margin: "auto",
   },
 
-  // Responsive Styles
-  '@media (max-width: 600px)': {
+  // Responsive styles
+  "@media (max-width: 350px)": {
+    card: {
+      padding: "15px 15px 25px",
+      width: "10%",
+    },
     headerRow: {
-      flexDirection: "column",
-      alignItems: "flex-start",
-      gap: "10px",
+      paddingRight: "5px",
+    },
+    heading: {
+      fontSize: "20px",
+      maxWidth: "75%",
+    },
+    closeBtn: {
+      width: "36px",
+      height: "36px",
+      fontSize: "20px",
+      marginLeft: "8px",
     },
     table: {
-      display: "block",
-      overflowX: "auto",
-      whiteSpace: "nowrap",
+      minWidth: "480px",
     },
     th: {
       fontSize: "16px",
+      minWidth: "120px",
       padding: "10px 8px",
     },
     td: {
@@ -279,46 +358,12 @@ const styles = {
       gap: "10px",
     },
     okBtn: {
-      width: "100%",
-      padding: "14px 0",
       fontSize: "18px",
+      padding: "14px 0",
+      maxWidth: "100%",
+      width: "100%",
     },
   },
 };
-
-// For inline styles we can't directly use media queries,
-// so you can add the media queries in CSS or use a style library.
-// Otherwise, add this CSS in a file and import it:
-
-/*
-@media (max-width: 600px) {
-  .headerRow {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
-  }
-  table {
-    display: block !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-  }
-  th {
-    font-size: 16px !important;
-    padding: 10px 8px !important;
-  }
-  td {
-    font-size: 13px !important;
-    padding: 10px 8px !important;
-  }
-  .radioGroup {
-    gap: 10px !important;
-  }
-  button {
-    width: 100% !important;
-    padding: 14px 0 !important;
-    font-size: 18px !important;
-  }
-}
-*/
 
 export default AttendancePage;

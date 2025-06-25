@@ -1,4 +1,3 @@
-// src/components/EditStudentModal.js
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -10,7 +9,9 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
     name: '',
     fatherName: '',
     motherName: '',
-    qualification: '', 
+    qualification: '',
+    admissionNo: '',
+    dateOfJoining: '',
     dob: '',
     course: '',
     duration: '',
@@ -25,6 +26,8 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
         fatherName: student.fatherName,
         motherName: student.motherName,
         qualification: student.qualification,
+        // admissionNo: student.admissionNo ,
+        // dateOfJoining: student.dateOfJoining,
         dob: student.dob,
         course: student.course,
         duration: student.duration,
@@ -77,6 +80,29 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
           {loading ? "Saving..." : "Save"}
         </button>
       </form>
+
+      {/* Inline responsive styles */}
+      <style>{`
+        @media (max-width: 500px) {
+          .ReactModal__Content {
+            width: 80% !important;
+            height: 90% !important;
+            padding: 20px !important;
+          }
+          .ReactModal__Content h2 {
+            font-size: 20px !important;
+          }
+          input {
+            font-size: 14px !important;
+            padding: 8px !important;
+            width: 90% !important;
+          }
+          button {
+            font-size: 14px !important;
+            padding: 10px !important;
+          }
+        }
+      `}</style>
     </Modal>
   );
 };
@@ -84,22 +110,23 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
 const modalStyles = {
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    zIndex: 999,
   },
-   content: {
+  content: {
     top: '50%',
     left: '50%',
     right: 'auto',
     bottom: 'auto',
     transform: 'translate(-50%, -50%)',
     padding: '30px',
-    width: '800px', // Increased width
-    height: '500px', // Reduced height
+    width: '800px',
+    height: '500px',
     backgroundColor: '#ffffff',
     color: '#000000',
     border: '2px solid orange',
     borderRadius: '12px',
     boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
-    overflowY: 'auto', // Enables scrolling if form exceeds height
+    overflowY: 'auto',
   },
 };
 
