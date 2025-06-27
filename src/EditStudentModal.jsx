@@ -22,15 +22,15 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
   useEffect(() => {
     if (student) {
       setFormData({
-        name: student.name,
-        fatherName: student.fatherName,
-        motherName: student.motherName,
-        qualification: student.qualification,
-        // admissionNo: student.admissionNo ,
-        // dateOfJoining: student.dateOfJoining,
-        dob: student.dob,
-        course: student.course,
-        duration: student.duration,
+        name: student.name || '',
+        fatherName: student.fatherName || '',
+        motherName: student.motherName || '',
+        qualification: student.qualification || '',
+        admissionNo: student.admissionNo || '',
+        dateOfJoining: student.dateOfJoining ? student.dateOfJoining.slice(0, 10) : '',
+        dob: student.dob ? student.dob.slice(0, 10) : '',
+        course: student.course || '',
+        duration: student.duration || '',
         phone: student.phone || '',
       });
     }
@@ -45,11 +45,14 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.put(`https://stuserver-6j1t.onrender.com/api/students/${student._id}`, formData);
-      onSave(res.data.student || formData);
+      const res = await axios.put(
+        `https://stuserver-6j1t.onrender.com/api/students/${student._id}`,
+        formData
+      );
+      onSave(res.data.student || res.data || formData);
       onRequestClose();
     } catch (err) {
-      const msg = err.response?.data?.error || err.message || "Failed to update student.";
+      const msg = err.response?.data?.error || err.message || 'Failed to update student.';
       alert(msg);
     } finally {
       setLoading(false);
@@ -60,49 +63,38 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
     <Modal isOpen={isOpen} onRequestClose={onRequestClose} style={modalStyles}>
       <h2 style={styles.heading}>Edit Student</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
-        {Object.keys(formData).map((key) => (
+        {Object.entries(formData).map(([key, value]) => (
           <div key={key} style={styles.formGroup}>
             <label style={styles.label}>
               {key.replace(/([A-Z])/g, ' $1').toUpperCase()}
             </label>
-            <input
-              type="text"
-              name={key}
-              value={formData[key]}
-              onChange={handleChange}
-              required
-              disabled={loading}
-              style={styles.input}
-            />
+            {(key === 'dob' || key === 'dateOfJoining') ? (
+              <input
+                type="date"
+                name={key}
+                value={value}
+                onChange={handleChange}
+                required
+                disabled={loading}
+                style={styles.input}
+              />
+            ) : (
+              <input
+                type="text"
+                name={key}
+                value={value}
+                onChange={handleChange}
+                required
+                disabled={loading}
+                style={styles.input}
+              />
+            )}
           </div>
         ))}
         <button type="submit" disabled={loading} style={styles.button}>
-          {loading ? "Saving..." : "Save"}
+          {loading ? 'Saving...' : 'Save'}
         </button>
       </form>
-
-      {/* Inline responsive styles */}
-      <style>{`
-        @media (max-width: 500px) {
-          .ReactModal__Content {
-            width: 80% !important;
-            height: 90% !important;
-            padding: 20px !important;
-          }
-          .ReactModal__Content h2 {
-            font-size: 20px !important;
-          }
-          input {
-            font-size: 14px !important;
-            padding: 8px !important;
-            width: 90% !important;
-          }
-          button {
-            font-size: 14px !important;
-            padding: 10px !important;
-          }
-        }
-      `}</style>
     </Modal>
   );
 };

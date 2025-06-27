@@ -12,10 +12,9 @@ function AddStudent() {
         phone: "",
         qualification: "",
         course: "",
-        duration: ""
-        // Uncomment below to enable
-        // admissionNo: "",
-        // dateOfJoining: ""
+        duration: "",
+        admissionNo: "",
+        dateOfJoining: ""
     });
 
     const handleChange = (e) => {
@@ -25,12 +24,13 @@ function AddStudent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Submitting form data:", formData);
         try {
-            await axios.post('https://stuserver-6j1t.onrender.com/api/students', formData);
+            await axios.post('http://localhost:5000/api/students', formData);
             alert("Student added successfully!");
             navigate("/");
         } catch (error) {
-            console.error(error);
+            console.error("Error submitting data:", error);
             alert("Error submitting data.");
         }
     };
@@ -42,19 +42,11 @@ function AddStudent() {
             background: "linear-gradient(to right, #0f0f0f, #1a1a1a)",
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
+            alignItems: "center",
             padding: "30px",
-            boxSizing: "border-box",
-            overflow: "hidden"
+            boxSizing: "border-box"
         }}>
             <style>{`
-                html, body {
-                    margin: 0;
-                    padding: 0;
-                    height: 100%;
-                    overflow: hidden;
-                }
-
                 @media (max-width: 600px) {
                     .form-content {
                         padding: 15px !important;
@@ -84,9 +76,8 @@ function AddStudent() {
                         width: 100% !important;
                     }
                 }
-
                 ::-webkit-scrollbar {
-                    width: 0px;
+                    width: 6px;
                 }
                 ::-webkit-scrollbar-thumb {
                     background: gray;
@@ -94,17 +85,19 @@ function AddStudent() {
                 }
             `}</style>
 
+            {/* Scrollable Card */}
             <div style={{
                 width: "100%",
                 maxWidth: "900px",
                 height: "100%",
+                maxHeight: "100%",
                 backgroundColor: "#ffffff",
                 borderRadius: "8px",
                 boxShadow: "0 15px 30px rgba(0,0,0,0.2)",
                 position: "relative",
                 display: "flex",
                 flexDirection: "column",
-                overflowY: "auto"
+                overflowY: "auto",
             }}>
 
                 {/* Close Button */}
@@ -148,7 +141,6 @@ function AddStudent() {
 
                 {/* Form */}
                 <div style={{
-                    overflowY: "auto",
                     padding: "0 30px 30px 30px",
                     flexGrow: 1
                 }}>
@@ -166,13 +158,17 @@ function AddStudent() {
                                         {key.replace(/([A-Z])/g, " $1").toUpperCase()}
                                     </label>
                                     <input
-                                        type="text"
+                                        type={key === "dob" || key === "dateOfJoining" ? "date" : "text"}
                                         id={key}
                                         name={key}
                                         value={formData[key]}
                                         onChange={handleChange}
                                         required
-                                        placeholder={`Enter ${key.replace(/([A-Z])/g, " $1")}`}
+                                        placeholder={
+                                            key === "dob" || key === "dateOfJoining"
+                                                ? undefined
+                                                : `Enter ${key.replace(/([A-Z])/g, " $1")}`
+                                        }
                                         style={{
                                             padding: "12px 15px",
                                             borderRadius: "10px",

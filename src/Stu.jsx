@@ -14,7 +14,9 @@ const Stu = () => {
     const fetchStudents = async () => {
       try {
         const res = await axios.get("https://stuserver-6j1t.onrender.com/api/students");
-        setStudents(res.data);
+        console.log("Fetched Students:", res.data);
+        // Ensure you're getting an array
+        setStudents(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Error fetching students:", err);
       }
@@ -31,6 +33,8 @@ const Stu = () => {
     if (window.confirm("Are you sure you want to delete this student?")) {
       try {
         await axios.delete(`https://stuserver-6j1t.onrender.com/api/students/${id}`);
+        // await axios.delete(`http://localhost:5000/api/students/${id}`);
+
         setStudents(students.filter(s => s._id !== id));
       } catch (err) {
         console.error("Error deleting student:", err);
@@ -48,25 +52,7 @@ const Stu = () => {
   };
 
   return (
-    <motion.div style={styles.body}>
-      {/* 🔒 GLOBAL STYLES TO HIDE BODY AND SCROLLBARS */}
-      <style>{`
-        html, body {
-          margin: 0;
-          padding: 0;
-          height: 100%;
-          overflow: hidden !important;
-        }
-        ::-webkit-scrollbar {
-          width: 0 !important;
-          height: 0 !important;
-        }
-        * {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
-
+    <div style={styles.pageWrapper}>
       {!isModalOpen && (
         <motion.div style={styles.container}>
           <div style={styles.headerRow}>
@@ -89,23 +75,27 @@ const Stu = () => {
                   <th style={styles.th}>DOB</th>
                   <th style={styles.th}>Phone</th>
                   <th style={styles.th}>Qualification</th>
+                  <th style={styles.th}>Admission No</th>
+                  <th style={styles.th}>Date of Joining</th>
                   <th style={styles.th}>Course</th>
                   <th style={styles.th}>Duration</th>
                   <th style={styles.th}>Actions</th>
                 </tr>
               </thead>
-              <tbody style={styles.scrollableTbody}>
+              <tbody>
                 {students.map((student, i) => (
                   <tr key={student._id || i}>
-                    <td style={{ ...styles.td, color: 'white' }}>{i + 1}</td>
-                    <td style={{ ...styles.td, color: '#00f7ff' }}>{student.name}</td>
-                    <td style={{ ...styles.td, color: '#ff4d4d' }}>{student.fatherName}</td>
-                    <td style={{ ...styles.td, color: '#ff9933' }}>{student.motherName}</td>
-                    <td style={{ ...styles.td, color: '#ffff66' }}>{student.dob}</td>
-                    <td style={{ ...styles.td, color: '#66ccff' }}>{student.phone}</td>
-                    <td style={{ ...styles.td, color: '#66ffff' }}>{student.qualification}</td>
-                    <td style={{ ...styles.td, color: '#80ff80' }}>{student.course}</td>
-                    <td style={{ ...styles.td, color: '#ff66cc' }}>{student.duration}</td>
+                    <td style={styles.td}>{i + 1}</td>
+                    <td style={styles.td}>{student.name}</td>
+                    <td style={styles.td}>{student.fatherName}</td>
+                    <td style={styles.td}>{student.motherName}</td>
+                    <td style={styles.td}>{student.dob}</td>
+                    <td style={styles.td}>{student.phone}</td>
+                    <td style={styles.td}>{student.qualification}</td>
+                    <td style={styles.td}>{student.admissionNo}</td>
+                    <td style={styles.td}>{student.dateOfJoining}</td>
+                    <td style={styles.td}>{student.course}</td>
+                    <td style={styles.td}>{student.duration}</td>
                     <td style={styles.td}>
                       <div style={styles.buttonGroup}>
                         <button style={styles.editBtn} onClick={() => handleEdit(student)}>Edit</button>
@@ -128,26 +118,24 @@ const Stu = () => {
           onSave={handleSave}
         />
       )}
-    </motion.div>
+    </div>
   );
 };
 
+// 🧩 CSS styles
 const styles = {
-  body: {
+  pageWrapper: {
     backgroundColor: 'black',
     minHeight: '100vh',
-    height: '100vh',
     padding: '20px',
-    overflow: 'hidden',
+    overflow: 'auto',
   },
   container: {
     maxWidth: '100%',
-    margin: '0 auto',
     backgroundColor: '#1a1a1a',
     borderRadius: '16px',
     padding: '30px',
     boxShadow: '0 0 30px rgba(0,0,0,0.6)',
-    overflow: 'hidden',
   },
   headerRow: {
     display: 'flex',
@@ -157,7 +145,7 @@ const styles = {
   },
   title: {
     color: 'orange',
-    fontSize: '36px',
+    fontSize: '32px',
     margin: 0,
   },
   closeBtn: {
@@ -174,34 +162,32 @@ const styles = {
     maxHeight: '70vh',
     overflowY: 'auto',
     overflowX: 'auto',
+    borderRadius: '10px',
   },
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    minWidth: '900px',
+    minWidth: '1100px',
   },
   thead: {
     position: 'sticky',
     top: 0,
     backgroundColor: '#292929',
-    zIndex: 100,
+    zIndex: 1,
   },
   th: {
     color: '#ffa500',
-    padding: '12px 8px',
+    padding: '12px 10px',
     borderBottom: '2px solid #444',
     fontSize: '14px',
     textAlign: 'center',
-    backgroundColor: '#292929',
-  },
-  scrollableTbody: {
-    overflowY: 'auto',
   },
   td: {
     backgroundColor: '#1e1e1e',
-    padding: '10px 8px',
-    borderBottom: '1px solid white',
+    padding: '10px 10px',
+    borderBottom: '1px solid #444',
     fontSize: '13px',
+    color: '#66ffff',
     textAlign: 'center',
     whiteSpace: 'nowrap',
   },
@@ -218,7 +204,6 @@ const styles = {
     border: 'none',
     cursor: 'pointer',
     fontWeight: '600',
-    minWidth: '70px',
   },
   deleteBtn: {
     backgroundColor: '#cc0033',
@@ -228,7 +213,6 @@ const styles = {
     border: 'none',
     cursor: 'pointer',
     fontWeight: '600',
-    minWidth: '70px',
   },
 };
 
