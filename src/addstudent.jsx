@@ -26,8 +26,8 @@ function AddStudent() {
         e.preventDefault();
         console.log("Submitting form data:", formData);
         try {
-            // await axios.post('http://localhost:5000/api/students', formData);
-            await axios.post('https://stuserver-6j1t.onrender.com/api/students', formData);
+            await axios.post('http://localhost:5000/api/students', formData);
+            // await axios.post('https://stuserver-6j1t.onrender.com/api/students', formData);
 
             alert("Student added successfully!");
             navigate("/");
