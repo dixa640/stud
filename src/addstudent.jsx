@@ -13,8 +13,8 @@ function AddStudent() {
         qualification: "",
         course: "",
         duration: "",
-        admissionNo: "",
-        dateOfJoining: ""
+        // admissionNo: "",
+        // dateOfJoining: ""
     });
 
     const handleChange = (e) => {
