@@ -68,7 +68,7 @@ const EditStudentModal = ({ isOpen, onRequestClose, student, onSave }) => {
             <label style={styles.label}>
               {key.replace(/([A-Z])/g, ' $1').toUpperCase()}
             </label>
-            {(key === 'dob' || key === 'dateOfJoining') ? (
+            {(key === 'dob' ) ? (
               <input
                 type="date"
                 name={key}
