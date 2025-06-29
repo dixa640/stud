@@ -75,8 +75,8 @@ const Stu = () => {
                   <th style={styles.th}>DOB</th>
                   <th style={styles.th}>Phone</th>
                   <th style={styles.th}>Qualification</th>
-                  <th style={styles.th}>Admission No</th>
-                  <th style={styles.th}>Date of Joining</th>
+                  {/* <th style={styles.th}>Admission No</th>
+                  <th style={styles.th}>Date of Joining</th> */}
                   <th style={styles.th}>Course</th>
                   <th style={styles.th}>Duration</th>
                   <th style={styles.th}>Actions</th>
@@ -92,8 +92,8 @@ const Stu = () => {
                     <td style={styles.td}>{student.dob}</td>
                     <td style={styles.td}>{student.phone}</td>
                     <td style={styles.td}>{student.qualification}</td>
-                    <td style={styles.td}>{student.admissionNo}</td>
-                    <td style={styles.td}>{student.dateOfJoining}</td>
+                    {/* <td style={styles.td}>{student.admissionNo}</td>
+                    <td style={styles.td}>{student.dateOfJoining}</td> */}
                     <td style={styles.td}>{student.course}</td>
                     <td style={styles.td}>{student.duration}</td>
                     <td style={styles.td}>
